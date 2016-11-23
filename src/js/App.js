@@ -46,6 +46,11 @@ var App = React.createClass({
         };
     },
 
+    rowShouldUpdate: function(sectionIndex, rowIndex) {
+        console.log(sectionIndex);
+        console.log(rowIndex);
+    },
+
     componentDidMount: function() {
         const actions = [];
         dataSource= this.state.dataSource.cloneWithRows(actions);
@@ -127,12 +132,15 @@ var App = React.createClass({
             if (value !== null){
                 // We have data!! 
                 var state = JSON.parse(value);
+                let actions = state.dataSource._dataBlob.s1;
+                dataSource = this.state.dataSource.cloneWithRows(actions);
+                this.setState({dataSource: dataSource});
+                delete state.dataSource;
                 this.setState(state);
             }
         } catch (error) {
              // Error retrieving data
              alert('error al recuperar partida');
-             alert(error);
         }
     },
 
